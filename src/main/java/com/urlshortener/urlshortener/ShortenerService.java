@@ -8,10 +8,12 @@ import java.util.Map;
 @Service
 public class ShortenerService {
     private final CodeGenerator codeGenerator;
-    private final static Map<String, String> urls;
+    private final static Map<String, String> urlsAndCodes;
+    private final static Map<String, String> codesAndUrls;
 
     static {
-        urls = new HashMap<>();
+        urlsAndCodes = new HashMap<>();
+        codesAndUrls = new HashMap<>();
     }
 
     public ShortenerService() {
@@ -19,9 +21,17 @@ public class ShortenerService {
     }
 
     public String shortenUrl(String url) {
-        String shortUrl = "http://localhost:8080/" +
-                codeGenerator.generateCode();
-        urls.put(url, shortUrl);
-        return shortUrl;
+        System.out.println("Shortening url: " + url);
+        if (urlsAndCodes.get(url) != null) {
+            return "http://localhost:8080/" + urlsAndCodes.get(url);
+        }
+        String code = codeGenerator.generateCode();
+        urlsAndCodes.put(url, code);
+        codesAndUrls.put(code, url);
+        return "http://localhost:8080/" + code;
+    }
+
+    public String releaseUrl(String code) {
+        return codesAndUrls.get(code);
     }
 }
