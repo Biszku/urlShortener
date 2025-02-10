@@ -13,13 +13,17 @@ public class CodeGenerator {
 
     public String generateCode() {
         long id = latestId++;
-        String code = getRandomChar() + String.format("%5s",  Base62.encode(id))
-                .replace(' ', '0') + getRandomChar();
+        String code = String.format("%5s",  Base62.encode(id))
+                .replace(' ', '0') + generateSuffix((byte) 2);
         codes.add(code);
         return code;
     }
 
-    private char getRandomChar() {
-        return characters.charAt((int) (Math.random() * characters.length()));
+    private String generateSuffix(byte length) {
+        String suffix = "";
+        for (int i = 0; i < length; i++) {
+            suffix += characters.charAt((int) (Math.random() * characters.length()));
+        }
+        return suffix;
     }
 }

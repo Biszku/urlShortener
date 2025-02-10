@@ -23,7 +23,6 @@ public class ShortenerService {
     }
 
     public String shortenUrl(String url) {
-        System.out.println("Shortening url: " + url);
         if (urlsAndCodes.get(url) != null) {
             return "http://localhost:8080/" + urlsAndCodes.get(url);
         }
