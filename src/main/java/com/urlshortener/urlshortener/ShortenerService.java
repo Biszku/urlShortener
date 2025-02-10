@@ -1,7 +1,9 @@
 package com.urlshortener.urlshortener;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,7 +33,10 @@ public class ShortenerService {
         return "http://localhost:8080/" + code;
     }
 
-    public String releaseUrl(String code) {
-        return codesAndUrls.get(code);
+    public HttpHeaders releaseUrl(String code) {
+        HttpHeaders headers = new HttpHeaders();
+        String originalUrl = codesAndUrls.get(code);
+        headers.setLocation(URI.create(originalUrl));
+        return headers;
     }
 }
